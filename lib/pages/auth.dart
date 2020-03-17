@@ -4,6 +4,7 @@ import 'dart:async';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key key}) : super(key: key);
+  static const routeName = '/auth';
 
   @override
   _AuthPageState createState() => _AuthPageState();

@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key key}) : super(key: key);
+  static const routeName = '/signin';
 
   @override
   _SignInPageState createState() => _SignInPageState();
@@ -13,13 +14,10 @@ class _SignInPageState extends State<SignInPage> {
   bool _loading = false;
 
   _googleSignIn () async {
-    // final GoogleSignInAccount currentUser = GoogleSignIn().currentUser;
     final bool isSignedIn = await GoogleSignIn().isSignedIn();
-    // print('googleuser $isSignedIn');
     GoogleSignInAccount googleUser;
     if (isSignedIn) googleUser = await GoogleSignIn().signInSilently();
     else googleUser = await GoogleSignIn().signIn();
-    // final GoogleSignInAccount googleUser = await GoogleSignIn().signIn(); // .signInSilently();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -45,6 +43,8 @@ class _SignInPageState extends State<SignInPage> {
             setState(() => _loading = true);
             await _googleSignIn();       
             setState(() => _loading = false);
+            // Navigator.pushReplacementNamed(context, '/');
+            // Navigator.pushReplacementNamed(context, '/auth');
             Navigator.pushReplacementNamed(context, '/home');
           },
         ),

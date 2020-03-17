@@ -13,15 +13,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() { 
     super.initState();
-    // Future.delayed(Duration(seconds: 4))
-    //   .then((r) => setState(() => _loading = false));
-    //   .then((r) => Navigator.pushReplacementNamed(context, '/sign'));
     _routePage();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   _routePage () async {
@@ -29,7 +21,7 @@ class _SplashPageState extends State<SplashPage> {
     return Navigator.pushReplacementNamed(context, '/auth');
   }
 
-  Widget _buildSplash(message) {
+  Widget _buildBody(message) {
     return Scaffold(
       body: Container(
         color: Theme.of(context).primaryColor,
@@ -50,6 +42,6 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildSplash('Internet checking...');
+    return _buildBody('Internet checking...');
   }
 }
