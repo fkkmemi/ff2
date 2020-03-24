@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
         child: Text('logout'),
         onPressed: () async {       
           await FirebaseAuth.instance.signOut();
-          Navigator.pushReplacementNamed(context, '/auth');
+          Navigator.pushReplacementNamed(context, '/');
         },
       ),
     );

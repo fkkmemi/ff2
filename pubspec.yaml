@@ -27,6 +27,8 @@ dependencies:
   # firebase_auth: ^0.15.5+2
   google_sign_in: ^4.1.4
   cloud_firestore:
+  flutter_signin_button: ^1.0.0
+
   # firebase_messaging: ^6.0.0
 
 # dependency_overrides:
