@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import '../methods/toast.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key key}) : super(key: key);
@@ -16,6 +18,7 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   _googleSignIn () async {
     final bool isSignedIn = await GoogleSignIn().isSignedIn();
@@ -69,7 +72,20 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(height: 10,),
               SignInButton(
                 Buttons.Email,
-                onPressed: () {},
+                onPressed: () async {
+                  try {
+                    setState(() => _loading = true);
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                      email: emailController.text, 
+                      password: passwordController.text,
+                    );
+                    Navigator.pushReplacementNamed(context, '/home');
+                  } catch (e) {
+                    toastError(_scaffoldKey, e);
+                  } finally {
+                    setState(() => _loading = false);
+                  }
+                },
               ),
               Text('or'),
               SignInButton(
@@ -101,6 +117,7 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(title: Text('Sign in'), ),
       body: _loading ? _buildLoading() : _buildBody()
     );
