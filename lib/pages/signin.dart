@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../methods/toast.dart';
+import '../methods/validators.dart';
 
 class SignInPage extends StatefulWidget {
   SignInPage({Key key}) : super(key: key);
@@ -57,6 +58,7 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
+                validator: emailValidator,
               ),
               // Container(height: 10,),
               SizedBox(height: 10,),
@@ -68,18 +70,20 @@ class _SignInPageState extends State<SignInPage> {
                 ),
                 controller: passwordController,
                 obscureText: true,
+                validator: passwordValidator,
               ),
               SizedBox(height: 10,),
               SignInButton(
                 Buttons.Email,
                 onPressed: () async {
+                  if (!_formKey.currentState.validate()) return;
                   try {
                     setState(() => _loading = true);
                     await FirebaseAuth.instance.signInWithEmailAndPassword(
                       email: emailController.text, 
                       password: passwordController.text,
                     );
-                    Navigator.pushReplacementNamed(context, '/home');
+                    Navigator.pushReplacementNamed(context, '/auth');
                   } catch (e) {
                     toastError(_scaffoldKey, e);
                   } finally {
@@ -91,12 +95,17 @@ class _SignInPageState extends State<SignInPage> {
               SignInButton(
                 Buttons.Google,
                 onPressed: () async {
-                  setState(() => _loading = true);
-                  await _googleSignIn();       
-                  setState(() => _loading = false);
-                  // Navigator.pushReplacementNamed(context, '/');
-                  // Navigator.pushReplacementNamed(context, '/auth');
-                  Navigator.pushReplacementNamed(context, '/home');
+                  try {
+                    setState(() => _loading = true);
+                    await _googleSignIn();       
+                    // Navigator.pushReplacementNamed(context, '/');
+                    // Navigator.pushReplacementNamed(context, '/auth');
+                    Navigator.pushReplacementNamed(context, '/home');
+                  } catch (e) {
+                    toastError(_scaffoldKey, e);
+                  } finally {
+                    setState(() => _loading = false);
+                  }
                 },
               ),
               SizedBox(height: 20,),
