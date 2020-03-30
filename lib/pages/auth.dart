@@ -42,7 +42,8 @@ class _AuthPageState extends State<AuthPage> {
         setState(() => _message = 'Email is not authenticated.');
         return; 
       }
-      Navigator.pushReplacementNamed(context, '/home');
+      // Navigator.pushReplacementNamed(context, '/home', arguments: {'fu': fu, 'dance': 'withme'});
+      Navigator.pushReplacementNamed(context, '/home', arguments: fu);
     });
   }
 
@@ -50,13 +51,13 @@ class _AuthPageState extends State<AuthPage> {
     return RaisedButton(
       child: Text('Email Confirmed'),
       onPressed: () async {
-        final u = await FirebaseAuth.instance.currentUser();
-        await u.reload();
-        if (!u.isEmailVerified) {          
+        final fu = await FirebaseAuth.instance.currentUser();
+        await fu.reload();
+        if (!fu.isEmailVerified) {          
           toastError(_scaffoldKey, 'Email is not authenticated. please try again');          
           return;
         }
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/home', arguments: fu);
       },
     );
   }

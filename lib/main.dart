@@ -18,13 +18,28 @@ class FFApp extends StatelessWidget {
       ),
       initialRoute: SplashPage.routeName,
       routes: {
-        SplashPage.routeName: (context) => SplashPage(),
+        // SplashPage.routeName: (context) => SplashPage(),
         AuthPage.routeName: (context) => AuthPage(),
         SignInPage.routeName: (context) => SignInPage(),
         SignUpPage.routeName: (context) => SignUpPage(),
-        HomePage.routeName: (context) => HomePage(),
+        // HomePage.routeName: (context) => HomePage(),
         ProfilePage.routeName: (context) => ProfilePage(),
       },
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case HomePage.routeName: {
+            return MaterialPageRoute(
+              builder: (context) {
+                return HomePage(user: settings.arguments);
+              }
+            );
+          } break;
+        }
+        return MaterialPageRoute(
+          builder: (context) => SplashPage()
+        );
+      },
+
     );
   }
 }
