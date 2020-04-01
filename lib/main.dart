@@ -5,6 +5,7 @@ import 'pages/signin.dart';
 import 'pages/signup.dart';
 import 'pages/home.dart';
 import 'pages/profile.dart';
+import 'pages/profile_edit.dart';
 
 void main() => runApp(FFApp());
 
@@ -18,28 +19,37 @@ class FFApp extends StatelessWidget {
       ),
       initialRoute: SplashPage.routeName,
       routes: {
-        // SplashPage.routeName: (context) => SplashPage(),
         AuthPage.routeName: (context) => AuthPage(),
         SignInPage.routeName: (context) => SignInPage(),
         SignUpPage.routeName: (context) => SignUpPage(),
-        // HomePage.routeName: (context) => HomePage(),
-        ProfilePage.routeName: (context) => ProfilePage(),
       },
       onGenerateRoute: (settings) {
         switch (settings.name) {
           case HomePage.routeName: {
             return MaterialPageRoute(
-              builder: (context) {
-                return HomePage(user: settings.arguments);
-              }
+              builder: (context) => HomePage(user: settings.arguments)
             );
           } break;
-        }
-        return MaterialPageRoute(
-          builder: (context) => SplashPage()
-        );
-      },
+          
+          case ProfilePage.routeName: {
+            return MaterialPageRoute(
+              builder: (context) => ProfilePage(user: settings.arguments)
+            );
+          } break;
+          
+          case ProfileEditPage.routeName: {
+            return MaterialPageRoute(
+              builder: (context) => ProfileEditPage(user: settings.arguments)
+            );
+          } break;
 
+          default: {
+            return MaterialPageRoute(
+              builder: (context) => SplashPage()
+            );
+          } break;
+        }        
+      },
     );
   }
 }

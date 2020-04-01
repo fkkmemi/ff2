@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import '../methods/toast.dart';
 
 class AuthPage extends StatefulWidget {
