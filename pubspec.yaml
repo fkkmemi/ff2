@@ -28,6 +28,9 @@ dependencies:
   google_sign_in: ^4.1.4
   cloud_firestore:
   flutter_signin_button: ^1.0.0
+  image_picker: ^0.6.3+4
+  flutter_image_compress: ^0.6.5+1
+  path_provider: ^1.6.5
 
   # firebase_messaging: ^6.0.0
 

@@ -1,5 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
+import 'dart:io';
 
 class ProfileEditPage extends StatefulWidget {
   ProfileEditPage({Key key, this.user}) : super(key: key);
@@ -11,6 +16,48 @@ class ProfileEditPage extends StatefulWidget {
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
+  File _image;
+
+  Future<File> _compressFile(File file, String tempPath) async {
+    final result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      tempPath,
+      minWidth: 200,
+      minHeight: 200,
+      quality: 90,
+      // rotate: 90,
+    );
+    return result;
+  }
+
+  Future getImage(ImageSource source) async {
+    File image = await ImagePicker.pickImage(source: source);
+    if (image == null) return;
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = path.join(tempDir.path, path.basename(image.path));
+    File tempImage = await _compressFile(image, tempPath);
+    print(image.lengthSync());
+    print(tempImage.lengthSync());
+    setState(() => _image = tempImage);
+  }
+
+  Widget _buildCameraButton() {
+    return InkWell(
+      child: Icon(Icons.photo_camera, color: Colors.white,),
+      onTap: () async {
+        await getImage(ImageSource.camera);
+      },
+    );
+  }
+
+  Widget _buildPhotoAlbumButton() {
+    return InkWell(
+      child: Icon(Icons.photo_library, color: Colors.white,),
+      onTap: () async {
+        await getImage(ImageSource.gallery);
+      },
+    );
+  }
 
   Widget _buildPhoto() {
     return Container(
@@ -20,7 +67,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
         children: <Widget>[
           Container(
             constraints: BoxConstraints.expand(),
-            child: Image.network(widget.user.photoUrl, fit: BoxFit.cover),
+            child: _image == null ? Image.network(widget.user.photoUrl, fit: BoxFit.cover) : Image.file(_image, fit: BoxFit.cover),
           ),
           Container(
             color: Colors.black54,
@@ -29,8 +76,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           ButtonBar(
             alignment: MainAxisAlignment.end,
             children: <Widget>[
-              Icon(Icons.photo_camera, color: Colors.white, ),
-              Icon(Icons.photo_library, color: Colors.white, ),
+              _buildCameraButton(),
+              _buildPhotoAlbumButton(),
             ],
           )
         ],        
