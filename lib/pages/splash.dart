@@ -21,20 +21,18 @@ class _SplashPageState extends State<SplashPage> {
     return Navigator.pushReplacementNamed(context, '/auth');
   }
 
-  Widget _buildBody(message) {
-    return Scaffold(
-      body: Container(
-        color: Theme.of(context).primaryColor,
-        padding: EdgeInsets.all(10),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Image.asset('assets/icon.png', width: 200),
-              Text(message, style: Theme.of(context).textTheme.body1.copyWith(color: Colors.white),),
-              Text('Copyright © fkkmemi.', style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),)
-            ],
-          ),
+  Widget _buildBody() {
+    return Container(
+      color: Theme.of(context).primaryColor,
+      padding: EdgeInsets.all(10),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            Image.asset('assets/icon.png', width: 200),
+            Text('loading...', style: Theme.of(context).textTheme.body1.copyWith(color: Colors.white),),
+            Text('Copyright © fkkmemi.', style: Theme.of(context).textTheme.caption.copyWith(color: Colors.white),)
+          ],
         ),
       ),
     );
@@ -42,6 +40,8 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildBody('Internet checking...');
+    return Scaffold(
+      body: _buildBody(),
+    );
   }
 }
