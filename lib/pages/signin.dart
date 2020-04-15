@@ -26,6 +26,8 @@ class _SignInPageState extends State<SignInPage> {
     GoogleSignInAccount googleUser;
     if (isSignedIn) googleUser = await GoogleSignIn().signInSilently();
     else googleUser = await GoogleSignIn().signIn();
+    // await GoogleSignIn().signOut();
+    // GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -99,8 +101,8 @@ class _SignInPageState extends State<SignInPage> {
                     setState(() => _loading = true);
                     await _googleSignIn();       
                     // Navigator.pushReplacementNamed(context, '/');
-                    // Navigator.pushReplacementNamed(context, '/auth');
-                    Navigator.pushReplacementNamed(context, '/home');
+                    Navigator.pushReplacementNamed(context, '/auth');
+                    // Navigator.pushReplacementNamed(context, '/home');
                   } catch (e) {
                     toastError(_scaffoldKey, e);
                   } finally {

@@ -68,7 +68,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     ),
                     controller: firstNameInputController,
                     validator: (value) {
-                      if (value.length < 1) return 'Please enter a valid first name.';
+                      if (value.isEmpty) return 'Please enter a valid first name.';
                       return null;
                     },
                   ),
